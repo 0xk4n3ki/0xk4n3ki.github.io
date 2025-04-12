@@ -59,6 +59,6 @@ The binary is now successfully patched. Simply run it and clear the levels to fi
 
 <img alt="alt text" src="/assets/img/20230101/wizardLike/levels/level1.jpg">
 
-The remaining level images can be found in the [images](/assets/img/20230101/wizardLike/levels) folder.
+The remaining level images can be found in the [images](/assets/img/20230101/wizardLike/levels/) folder.
 
 > The flag is : <span style = "color:lightgreen;">**picoCTF{ur_4_w1z4rd_8F4B04AE}**</span>
