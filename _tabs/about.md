@@ -8,4 +8,4 @@ I’m <span style="color:red">**k4n3ki**</span> a.k.a. Suraj Yadav, a 2024 IIT R
 
 Everything beside i love <span style="color:pink">Rize-san</span>.
 
-<img src="/assets/img/about/rize.jpg" alt="Rize-San">
+<img alt="alt text" src="/assets/img/about/rize.jpg" alt="Rize-San">

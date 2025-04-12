@@ -48,26 +48,26 @@ tags: [Trojan, .Net malware]
 
 Starting by searching the hash on VirusTotal, I found that 29 out of 70 vendors flagged this binary as malicious. According to the VirusTotal report, it contacts 4 URLs, 8 IPs, and 6 domains.
 
-<img src="/assets/img/assignment/virustotal.jpg">
+<img alt="alt text" src="/assets/img/assignment/virustotal.jpg">
 
 ## <span style="color:red">File Metadata</span>
 
 Beginning the static analysis with <span style="color:lightgreen">DiE</span>, we can observe that it is a .NET binary and appears to be a recently compiled one.
 
-<img src="/assets/img/assignment/die.jpg">
+<img alt="alt text" src="/assets/img/assignment/die.jpg">
 
 
 It appears that the binary is obfuscated or packed. I attempted to deobfuscate the sample using <span style="color:lightgreen">de4dot</span> and <span style="color:lightgreen">NetReactorSlayer</span>, but there was no noticeable change in the code.
 
 Furthermore, DiE reported that the .text section is also packed, as its entropy is 7.58. This section contains various resources, such as icons, version information, and the manifest.
 
-<img src="/assets/img/assignment/entropy.jpg">
+<img alt="alt text" src="/assets/img/assignment/entropy.jpg">
 
 ## <span style="color:red">Capa</span>
 
  Next, I used <span style="color:lightgreen">Capa</span> to identify its capabilities. The following capabilities were identified, and we will explore them during the debugging process.
 
-<img src="/assets/img/assignment/capa.jpg">
+<img alt="alt text" src="/assets/img/assignment/capa.jpg">
 
 
 # <span style="color:red">Advanced Static & Dynamic Anaylsis</span>
@@ -76,36 +76,36 @@ Furthermore, DiE reported that the .text section is also packed, as its entropy 
 
 If we inspect the code using DnSpy, within <span style="color:lightgreen">Form1</span>, there's a method named <span style="color:lightgreen">Form1_Load</span> which calls another method called <span style="color:lightgreen">corediQart</span>. In this method, we can see a <span style="color:lightgreen">Timer</span> being set to call a method named <span style="color:lightgreen">procvQloop</span> at specific intervals.
 
-<img src="/assets/img/assignment/timer.jpg">
+<img alt="alt text" src="/assets/img/assignment/timer.jpg">
 
 This TimerCallback will execute the <span style="color:lightgreen">procvQloop</span> method at intervals of approximately 1 minute. Inside procvQloop, a <span style="color:lightgreen">TCPClient</span> object is created to establish a connection to the server. Subsequently, it calls a method called <span style="color:lightgreen">systeWons</span>.
 
-<img src="/assets/img/assignment/procvQloop.jpg">
+<img alt="alt text" src="/assets/img/assignment/procvQloop.jpg">
 
 <span style="color:lightgreen">systeWons</span> retrieves the <span style="color:lightgreen">min_codns</span> IP address and attempts to establish a connection to the server at "<span style="color:lightgreen">162.245.191.217</span>" on port <span style="color:lightgreen">9149</span>. 
 
-<img src="/assets/img/assignment/ippython.jpg">
+<img alt="alt text" src="/assets/img/assignment/ippython.jpg">
 
 If it successfully connects, it returns true. If the connection fails, it attempts to connect to other ports[9149, 15198, 17818, 27781, 29224].
 
-<img src="/assets/img/assignment/systewons.jpg">
+<img alt="alt text" src="/assets/img/assignment/systewons.jpg">
 
 
 ## <span style="color:red">Read data from server</span>
 
 After establishing a connection to the server in <span style="color:lightgreen">systeWons</span>, <span style="color:lightgreen">procvQloop</span> proceeds to call another method named <span style="color:lightgreen">procD_core</span>. Inside procD_core, an object of <span style="color:lightgreen">NetworkStream</span> is created, and it subsequently calls the <span style="color:lightgreen">get_procsQtype</span> method.
 
-<img src="/assets/img/assignment/procD_core.jpg">
+<img alt="alt text" src="/assets/img/assignment/procD_core.jpg">
 
 
 In the <span style="color:lightgreen">get_procQtype</span> method, it reads 5 bytes from the server, which are used as the size of the remaining buffer. It then reads the remaining buffer using for loop. This data is converted into a string and returned after splitting it by the <span style="color:lightgreen">"="</span> character.
 
-<img src="/assets/img/assignment/get_procsQtype.jpg">
+<img alt="alt text" src="/assets/img/assignment/get_procsQtype.jpg">
 
 
 <span style="color:lightgreen">get_procsQtype</span> return <span style="color:lightgreen">process_type</span> containing two strings. 
 
-<img src="/assets/img/assignment/buffer.jpg">
+<img alt="alt text" src="/assets/img/assignment/buffer.jpg">
 
 Now, it performs split, remove, and insert operations on process_type[0]. Taking the example of the above data, the text will be updated as follows:
 
@@ -173,7 +173,7 @@ To call the <span style="color:lightgreen">imagiQtails</span> function and pass 
 
 In the following image, we can see that the path of the image will be passed to imagiQtails.
 
-<img src="/assets/img/assignment/sscall.jpg">
+<img alt="alt text" src="/assets/img/assignment/sscall.jpg">
 
 <span style="color:lightgreen">ImagiQtails</span> passes three arguments to the function <span style="color:lightgreen">loadQdata</span>. These arguments are:
 - A stream containing the image bytes.
@@ -182,7 +182,7 @@ In the following image, we can see that the path of the image will be passed to 
 
 loadQdata writes array3 to NetworkStream, where array3 = sizeof(file metadata) + file metadata + sizeof(image bytes) + image bytes.
 
-<img src="/assets/img/assignment/ssListen.jpg">
+<img alt="alt text" src="/assets/img/assignment/ssListen.jpg">
 
 In the picture above, it is evident that after formatting the data, it writes the data to a network stream, and we receive it on the Python server.
 
@@ -201,7 +201,7 @@ size: "\x28\x00\x00\x00\x00"
 process_type: ["-ruy1nf", "C:\\Windows\\system32\\notepad.exe>"]
 ```
 
-<img src="/assets/img/assignment/processStartDBG.jpg">
+<img alt="alt text" src="/assets/img/assignment/processStartDBG.jpg">
 
 > process_type[1].Split(new char[] {'>'})[0] = "C:\\Windows\\system32\\notepad.exe"
 
@@ -216,7 +216,7 @@ In the above screenshot, "C:\Windows\system32\notepad.exe" is being passed to th
 
 If the malware receives the above command from the server, it will invoke the <span style="color:lightgreen">machine_process</span> method. This method will retrieve the list of processes running on the host and send this information to the server, including their respective process IDs.
 
-<img src="/assets/img/assignment/machineProcess.jpg">
+<img alt="alt text" src="/assets/img/assignment/machineProcess.jpg">
 
 
 ### <span style="color:red">Delete File</span>
@@ -225,7 +225,7 @@ If the malware receives the above command from the server, it will invoke the <s
 
 > Command : Size + "-" + deyTlt + "=" + filePath
 
-<img src="/assets/img/assignment/delete.jpg">
+<img alt="alt text" src="/assets/img/assignment/delete.jpg">
 
 The trasQfiles method takes a file path as an argument and deletes the specified file. This method will ne initiated by procD_core.
 
@@ -236,7 +236,7 @@ The trasQfiles method takes a file path as an argument and deletes the specified
 > command : "\x09\x00\x00\x00\x00-puyTtsrt"
 
 
-<img src="/assets/img/assignment/regset.jpg">
+<img alt="alt text" src="/assets/img/assignment/regset.jpg">
 
 The set_coruep method adds the current executable path to the Windows Registry key "<span style="color:lightgreen">SOFTWARE\Microsoft\Windows\CurrentVersion\Run</span>" This allows the malware to run automatically every time the user logs in.
 
@@ -247,7 +247,7 @@ The set_coruep method adds the current executable path to the Windows Registry k
 
 > Command : \x0e\x00\x00\x00\x00-cdyTcrgn=100>
 
-<img src="/assets/img/assignment/image.jpg">
+<img alt="alt text" src="/assets/img/assignment/image.jpg">
 
 <span style="color:lightgreen">deskWcren</span> takes a parameter to determine what percentage of the screen should be captured.
 
@@ -257,11 +257,11 @@ The set_coruep method adds the current executable path to the Windows Registry k
 
 > Command : \x07\x00\x00\x00\x00-diyTrs
 
-<img src="/assets/img/assignment/drives.jpg">
+<img alt="alt text" src="/assets/img/assignment/drives.jpg">
 
 loawthudrive method get the names of all the drives present in the host.
 
-<img src="/assets/img/assignment/drivecmd.jpg">
+<img alt="alt text" src="/assets/img/assignment/drivecmd.jpg">
 
 
 ### <span style="color:red">Retrieve file Metadata</span>
@@ -270,7 +270,7 @@ loawthudrive method get the names of all the drives present in the host.
 
 > Command : \x85\x00\x00\x00\x00-fiyTlsz=C:\\Users\\vboxuser\\Desktop\\c46-FirstHack\\assignment\\ce556d55e07bf6b57e3e086e57e9c52552ac7f00adf4a7c9f99bbc21a5ac26c2\\test.txt
 
-<img src="/assets/img/assignment/metadata.jpg">
+<img alt="alt text" src="/assets/img/assignment/metadata.jpg">
 
 It returns a string consisting of the file name, creation time, and size.
 
@@ -282,7 +282,7 @@ It returns a string consisting of the file name, creation time, and size.
 
 > Command : \x2b\x00\x00\x00\x00-doyTwr=C:\\Users\\vboxuser\\Desktop\\suraj.txt\x0a\x00\x00\x00\x00Surajyadav
 
-<img src="/assets/img/assignment/filecreate.jpg">
+<img alt="alt text" src="/assets/img/assignment/filecreate.jpg">
 
 First, it reads the keyword and the file path to create. In <span style="color:lightgreen">doviruAfile</span>, it calls <span style="color:lightgreen">downQdata</span>, which reads the content to be written to the file. 
 
@@ -294,7 +294,7 @@ The command above created a file on the Desktop named 'suraj.txt' containing 'Su
 
 > Command : \x07\x00\x00\x00\x00-udyTlt + sizeof(file data) + file data
 
-<img src="/assets/img/assignment/filecreatestart.jpg">
+<img alt="alt text" src="/assets/img/assignment/filecreatestart.jpg">
 
 ```c#
 public static string del_account = "rtwihri_b".Replace("_", "");
@@ -311,7 +311,7 @@ The '<span style="color:lightgreen">downQdata</span>' function reads file data f
 
 > Command : \x83\x00\x00\x00\x00-fiyTle=C:\\Users\\vboxuser\\Desktop\\c46-FirstHack\\assignment\\ce556d55e07bf6b57e3e086e57e9c52552ac7f00adf4a7c9f99bbc21a5ac26c2\\car.jpg
 
-<img src="/assets/img/assignment/readfile.jpg">
+<img alt="alt text" src="/assets/img/assignment/readfile.jpg">
 
 <span style="color:lightgreen">movQfiles</span> sends the requested file back to server.
 
@@ -323,7 +323,7 @@ The '<span style="color:lightgreen">downQdata</span>' function reads file data f
 
 > Command : \x21\x00\x00\x00\x00-flyTdr=C:\\Users\\vboxuser\\Desktop
 
-<img src="/assets/img/assignment/subdir.jpg">
+<img alt="alt text" src="/assets/img/assignment/subdir.jpg">
 
 <span style="color:lightgreen">exprfvlder</span> concatenates all the subdirectories to send back to the server.
 
@@ -334,7 +334,7 @@ The '<span style="color:lightgreen">downQdata</span>' function reads file data f
 
 > Command : \x07\x00\x00\x00\x00-inyTfo
 
-<img src="/assets/img/assignment/userinfo.jpg">
+<img alt="alt text" src="/assets/img/assignment/userinfo.jpg">
 
 <span style="color:lightgreen">accouQinfos</span> return the computer name, username and the malware's directory.
 

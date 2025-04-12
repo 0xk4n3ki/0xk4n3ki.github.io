@@ -69,27 +69,27 @@ Lets upload the binary in <span style="color:lightgreen">DiE</span>, where we ca
 
 [Capa](https://github.com/mandiant/capa) detect that it is using Heavens Gate for Defense Evasion. 
 
-<img src="/assets/img/heaven/capa.jpg">
+<img alt="alt text" src="/assets/img/heaven/capa.jpg">
 
 It just asks for a key and prints "wrong" if the the key is incorrect.
 
-<img src="/assets/img/heaven/run.jpg">
+<img alt="alt text" src="/assets/img/heaven/run.jpg">
 
 In IDA Pro, we can see that it is having problem disassembling the function in which this technique is used. As retf is used to change the value of cs register that confuses IDA to define the function.
 
-<img src="/assets/img/heaven/ida.jpg">
+<img alt="alt text" src="/assets/img/heaven/ida.jpg">
 
 Lets load the binary in x32dbg, and run the input to see where it is being stored. Afteer running the binary completely and passing the input we can go to the "Find Strings" section and see the input.
 
-<img src="/assets/img/heaven/strings.jpg">
+<img alt="alt text" src="/assets/img/heaven/strings.jpg">
 
 Put a access hardware breakpoint on the address where the input is being stored. Follow the address in dump. Right click on the first byte of input and select <span style="color:lightgreen">Breakpoint -> Hardware, Access -> Byte</span>. Now, restart the debugger, pass the input, it will break at 0x00FB17EB.
 
-<img src="/assets/img/heaven/breakpoint.jpg">
+<img alt="alt text" src="/assets/img/heaven/breakpoint.jpg">
 
 Now, we can go through the instructions and see how the technique is used.
 
-<img src="/assets/img/heaven/ret.jpg">
+<img alt="alt text" src="/assets/img/heaven/ret.jpg">
 
 - First <span style="color:lightgreen">0x33</span> is pushed on the stack.
 - At 0x00FB17F3, it calls the next instruction(0x00FB17F8) and the call instruction will push the address 0x00FB17F8 on the stack.
@@ -102,7 +102,7 @@ x32dbg crashes after the "ret far" instruction, so we will have to go through th
 
 To get the key, we will have to disassemble the instruction according to x64 processor. To do that just copy the bytes between the "ret far" instructions and save them to a file and load that file into IDA64. We can see the change in the instructions.
 
-<img src="/assets/img/heaven/cmp.jpg">
+<img alt="alt text" src="/assets/img/heaven/cmp.jpg">
 
 We can find the key easily, as it's just comparing the charactres of the key one by one. Finaly the key is "**h34vEn**".
 

@@ -12,7 +12,7 @@ tags: [Ransomware, Reverse Engineering, .Net]
 
 <span style="color:lightgreen">Ransomware</span> is a kind of computer troublemaker that takes your files hostage. Imagine if your favorite toy was locked away, and you had to pay to get it back. That's what ransomware does to your computer files-it locks them up, and the bad guys ask for <span style="color:lightgreen">money</span> to set them free. It's like a digital kidnapper. To stay safe, avoid clicking on strange links or downloading things from unknown sources.
 
-<img src="/assets/img/luckbit/tempWallpaper.jpg">
+<img alt="alt text" src="/assets/img/luckbit/tempWallpaper.jpg">
 
 ## <span style="color:red">Content</span>
 - [overview](#overview)
@@ -45,24 +45,24 @@ tags: [Ransomware, Reverse Engineering, .Net]
 
 Loading the binary into Detect-it-Easy reveals that it is a PE32 <span style="color:lightgreen">.NET</span> binary protected by the <span style="color:lightgreen">Obfuscar</span> obfuscator. The reported creation year of the exe is 2041. It contains only one import, [_CorExeMain](https://learn.microsoft.com/en-us/dotnet/framework/unmanaged-api/hosting/corexemain-function), which initializes the Common Language Runtime (CLR).
 
-<img src="/assets/img/luckbit/die.jpg">
+<img alt="alt text" src="/assets/img/luckbit/die.jpg">
 
 The <span style="color:lightgreen">entropy</span> of the .text section is 7.627, indicating that it is packed. It also contains two resources: <span style="color:lightgreen">Version Info</span> and <span style="color:lightgreen">Manifest</span>.
 
-<img src="/assets/img/luckbit/entropy.jpg">
+<img alt="alt text" src="/assets/img/luckbit/entropy.jpg">
 
 ## <span style="color:red">Virustotal Report</span>
 
 When searched on [VirusTotal](https://www.virustotal.com/gui/file/206e71939ac01a149d2fcec629758524a2597bd7d07e6bb3fb01d0f4e28f5b8e/detection), the hash was flagged as malicious by 55 out of 72 vendors. The detection revealed several IPs, and the malware drops multiple files on the system.
 
-<img src="/assets/img/luckbit/virustotal.jpg">
+<img alt="alt text" src="/assets/img/luckbit/virustotal.jpg">
 
 ## <span style="color:red">Capa</span>
 
 
 Capa detects numerous capabilities of this malware, such as <span style="color:lightgreen">host interaction</span>, <span style="color:lightgreen">data manipulation</span> using <span style="color:lightgreen">Base64</span>, <span style="color:lightgreen">RSA</span>, <span style="color:lightgreen">SHA256</span>, etc.
 
-<img src="/assets/img/luckbit/capa.jpg">
+<img alt="alt text" src="/assets/img/luckbit/capa.jpg">
 
 
 # <span style="color:red">DnSpy</span>
@@ -73,7 +73,7 @@ For further analysis, let's load the binary into <span style="color:lightgreen">
 
 The class BF435CFA-E253-40F2-84CD-A545B5F84149 contains a constructor that updates a large chunk of bytes using XOR.
 
-<img src="/assets/img/luckbit/xor.jpg">
+<img alt="alt text" src="/assets/img/luckbit/xor.jpg">
 
 To observe what it XORs, I wrote a Python script to check.
 
@@ -109,20 +109,20 @@ print(base_enc_strings)
 
 The output contains <span style="color:lightgreen">base64-encoded</span> strings and the command "<span style="color:lightgreen">rundll32.exe user32.dll,UpdatePerUserSystemParameters 1, True</span>" which is often used to force Windows to refresh its display settings or apply changes to the user interface.
 
-<img src="/assets/img/luckbit/pyxor.jpg">
+<img alt="alt text" src="/assets/img/luckbit/pyxor.jpg">
 
 
 These strings are retrieved in chunks whenever needed by calling specific functions.
 
-<img src="/assets/img/luckbit/chunks.jpg">
+<img alt="alt text" src="/assets/img/luckbit/chunks.jpg">
 
 To understand how it fetches the strings and continues the flow, let's examine the reference for the above command. It retrieves the command in two parts: first, "rundll32.exe," which is of length 12, and then the remaining part, "user32.dll,UpdatePerUserSystemParameters 1, True," which is of length 48.
 
-<img src="/assets/img/luckbit/fetch.jpg">
+<img alt="alt text" src="/assets/img/luckbit/fetch.jpg">
 
 These strings are passed to function as arguments where it starts a new process and sets the first string as executable to run and second string as its arguments. The WindowStyle of this process is set to <span style="color:lightgreen">ProcessWindowStyle.hidden</span> to hide the window.
 
-<img src="/assets/img/luckbit/stringprocess.jpg">
+<img alt="alt text" src="/assets/img/luckbit/stringprocess.jpg">
 
 ## <span style="color:red">[De4dot](https://github.com/de4dot/de4dot)</span>
 
@@ -130,25 +130,25 @@ To decrypt the string, use the <span style="color:red">De4dot</span> tool, which
 
 > de4dot.exe 206e71939ac01a149d2fcec629758524a2597bd7d07e6bb3fb01d0f4e28f5b8e.exe --strtyp emulate --strtok "7FFC0B98-1A44-4DFA-9214-E12B36C3AD43.BF435CFA-E253-40F2-84CD-A545B5F84149::" --strtok 0x06000024 --strtok 0x06000011 -o test1.exe
 
-<img src="/assets/img/luckbit/de4dot.jpg">
+<img alt="alt text" src="/assets/img/luckbit/de4dot.jpg">
 
 ## <span style="color:red">Class a</span>
 
 The main functionality of class a is to read a file and write its content to another file in an encrypted form.
 
-<img src="/assets/img/luckbit/a.jpg">
+<img alt="alt text" src="/assets/img/luckbit/a.jpg">
 
 ## <span style="color:red">Class A</span>
 
 This contains the main functionalities of the ransomware, which traverse through the directories, get the files and all.
 
-<img src="/assets/img/luckbit/AA.jpg">
+<img alt="alt text" src="/assets/img/luckbit/AA.jpg">
 
 ## <span style="color:red">Class b</span>
 
 This class defines a class that inherits from <span style="color:lightgreen">ApplicationSettingsBase</span> and is used for managing application settings features.
 
-<img src="/assets/img/luckbit/b.jpg">
+<img alt="alt text" src="/assets/img/luckbit/b.jpg">
 
 ## <span style="color:red">Class B</span>
 
@@ -161,7 +161,7 @@ Static Analysis in DnSpy doesn't provide much insight since strings are decrypte
 
 The malware first traverses all directories, encrypting files with extensions such as .jpg, .txt. Additionally, it appends a new extension "<span style="color:lightgreen">.znhpj</span>" to the filenames.
 
-<img src="/assets/img/luckbit/pencrypt.jpg">
+<img alt="alt text" src="/assets/img/luckbit/pencrypt.jpg">
 
 After encrypting the files, the malware creates a <!-- [<span style="color:red"><ins>README_K.log</ins></span>](/assets/img/luckbit/README_K.log) --> README_K.log file in each directory. This file contains the ransom note detailing the attack and includes instructions on how to pay the ransom. It modifies the wallpaper by replacing it with an image containing a message about Luckbit along with information from the README_K.log file.
 
@@ -193,7 +193,7 @@ Sincerely,
 ZNH
 ```
 
-<img src="/assets/img/luckbit/preadme.jpg">
+<img alt="alt text" src="/assets/img/luckbit/preadme.jpg">
 
 Observing the process activity, it initiates a process with <span style="color:lightgreen">powershell.exe</span> and executes a script in file <!-- [<span style="color:red"><ins>tmpF593.tmp.ps1</ins></span>](/assets/img/luckbit/tmp.ps1) --> tmpF593.tmp.ps1.
 
@@ -219,7 +219,7 @@ Remove-Item $script:MyInvocation.MyCommand.Path -Force
 Remove -Variable soNJkXUO
 ```
 
-<img src="/assets/img/luckbit/ps.jpg">
+<img alt="alt text" src="/assets/img/luckbit/ps.jpg">
 
 This script checks for a process named "3K0JfF4BjXG6mMisOnUXL2mGOOBeDHM7vZK4ILhZbtc", if this process is running, it prints "DtwpkcPr". If the process has exited, it checks if a file exists at a specific path (<span style="color:lightgreen">C:\ProgramData\Windows\System32\3K0JfF4BjXG6mMisOnUXL2mGOOBeDHM7vZK4ILhZbtc.exe</span>). If the file exists, it uses Microsoft.VisualBasic to delete the file to the recycle bin and then removes the script file itself. If the file does not exist, it simply removes the script file.
 
@@ -229,33 +229,33 @@ By employing advanced dynamic analysis and debugging, we can analyze the sample 
 
 The entry point of this sample is method A in class A. In this method, an array of folders is created by deobfuscating strings. 
 
-<img src="/assets/img/luckbit/folders.jpg">
+<img alt="alt text" src="/assets/img/luckbit/folders.jpg">
 
 ## <span style="color:red">File Encryption</span>
 
 The deobfuscation process involves using Base64 and AES algorithms to decrypt the strings in method A.A.C.
 
-<img src="/assets/img/luckbit/aes.jpg">
+<img alt="alt text" src="/assets/img/luckbit/aes.jpg">
 
 The sample employs the same key and IV (Initialization Vector) for decrypting all the strings.
 
-<img src="/assets/img/luckbit/chef.jpg">
+<img alt="alt text" src="/assets/img/luckbit/chef.jpg">
 
 After obtaining the folder list, it iteratively passes each folder name to the A.A.a method through a for loop. Within this method, it retrieves a list of file extensions, which includes [".txt", ".pdf", ".jpg", ".doc", ".docx", ".ppt", ".xls", ".png", ".sql", ".sqlite", ".csv"].
 
-<img src="/assets/img/luckbit/ext.jpg">
+<img alt="alt text" src="/assets/img/luckbit/ext.jpg">
 
 Then it gets the list of all the files present in the directory with one of the extensions from the above list. Afterward, it passes the file name and two other arguments to the method named A.A.B and deletes the file. Following that, it retrieves the list of sub-directories and passes them to the same method A.A.a recursively. It also checks for the strings "Startup" and "Temp" in the file and folder names.
 
 The A.A.a method contains the implementation of RSA encryption. It takes three arguments: the RSA public key in XML format, the original filename, and the new filename with a '.znhpj' extension. It encrypts the file content using RSA and creates a new file.
 
-<img src="/assets/img/luckbit/rsa.jpg">
+<img alt="alt text" src="/assets/img/luckbit/rsa.jpg">
 
 ## <span style="color:red">Create Wallpaper Image</span>
 
 After encrypting all the files in "NFS," "Documents," "Desktop," "OneDrive," "GDRIVE," and "Google Drive," it calls A.A.c in which it retrieves an image by decrypting a chunk using base64 and saves the 'Wallpaper.jpg' in the Temp directory. After that, it passes the full path of that image to the A.A.B method.
 
-<img src="/assets/img/luckbit/wallpaper.jpg">
+<img alt="alt text" src="/assets/img/luckbit/wallpaper.jpg">
 
 A.A.B sets this image as the wallpaper by modifying the registries.
 
@@ -267,13 +267,13 @@ A.A.B sets this image as the wallpaper by modifying the registries.
 | TileWallpaper | 0 |
 | Wallpaper | C:\Users\vboxuser\AppData\Local\Temp\tempWallpaper.jpg
 
-<img src="/assets/img/luckbit/reg.jpg">
+<img alt="alt text" src="/assets/img/luckbit/reg.jpg">
 
 ## <span style="color:red">Refresh Display Settings</span>
 
 Next, A.A.B is called with two strings as arguments: "rundll32.exe" and "USER32.DLL,UpdatePerUserSystemParameters 1, True." This function starts a new process to execute rundll32.exe with the second string as its argument, forcing Windows to refresh its display settings or apply changes to the user interface.
 
-<img src="/assets/img/luckbit/runas.jpg">
+<img alt="alt text" src="/assets/img/luckbit/runas.jpg">
 
 ## <span style="color:red">Create README file</span>
 
@@ -281,11 +281,11 @@ Next, in a new thread, it starts creating the README_K.log file in "Users" and "
 
 While decrypting the content of the readme file, it creates a unique ID for every victim. This ID is the SHA256 hash of the Environment Username and a constant.
 
-<img src="/assets/img/luckbit/readme.jpg">
+<img alt="alt text" src="/assets/img/luckbit/readme.jpg">
 
 Then, it calls another method to create the README_K.log file in all the subdirectories.
 
-<img src="/assets/img/luckbit/subdir.jpg">
+<img alt="alt text" src="/assets/img/luckbit/subdir.jpg">
 
 ## <span style="color:red">Delete Shadow Files</span>
 
@@ -293,13 +293,13 @@ Next it runs a command "vssadmin delete shadows /for=c: /all" that uses the VSSA
 
 > Shadow Copy is a technology included in Microsoft Windows that can create backup copies or snapshots of computer files or volumes, even when they are in use. It is implemented as a Windows service called the Volume Shadow Copy service.
 
-<img src="/assets/img/luckbit/vss.jpg">
+<img alt="alt text" src="/assets/img/luckbit/vss.jpg">
 
 ## <span style="color:red">Powershell to remove Traces</span>
 
 Next, it creates a PowerShell script, saves it to the "C:\Users\vboxuser\AppData\Local\Temp" directory, and executes it using powershell.exe in a new process. This script checks for a process named "3K0JfF4BjXG6mMisOnUXL2mGOOBeDHM7vZK4ILhZbtc", if this process is running, it prints "DtwpkcPr". If the process has exited, it checks if a file exists at a specific path (C:\ProgramData\Windows\System32\3K0JfF4BjXG6mMisOnUXL2mGOOBeDHM7vZK4ILhZbtc.exe). If the file exists, it uses Microsoft.VisualBasic to delete the file to the recycle bin and then removes the script file itself. If the file does not exist, it simply removes the script file.
 
-<img src="/assets/img/luckbit/script.jpg">
+<img alt="alt text" src="/assets/img/luckbit/script.jpg">
 
 
 

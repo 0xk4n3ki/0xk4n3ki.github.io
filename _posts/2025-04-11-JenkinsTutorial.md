@@ -137,14 +137,14 @@ If Jenkins is not accessible at this address, it’s likely due to a firewall re
 
 Save the rule. This change allows HTTP traffic on port 8080 to reach the Jenkins server. Refer to the image below for an example configuration of the inbound rule.
 
-<img src="/assets/img/jenkinsTutorial/securityGroup.png" alt="Security Group">
+<img alt="alt text" src="/assets/img/jenkinsTutorial/securityGroup.png">
 
 
 > Note: By default, Jenkins runs on port 8080. If this port is already in use by another application or service, it can be changed by modifying the JENKINS_PORT environment variable in the /lib/systemd/system/jenkins.service file. After changing the port, ensure that the corresponding inbound rule is added to the AWS Security Group to allow traffic on the new port.
 
 With the default configuration, Jenkins should now be running on port 8080 and accessible via the browser using the public IP of the instance.
 
-<img src="/assets/img/jenkinsTutorial/jenkinsLoginPage.png" alt="Jenkins login page">
+<img alt="alt text" src="/assets/img/jenkinsTutorial/jenkinsLoginPage.png">
 
 To begin the Jenkins setup in the browser, a one-time administrator password is required. Retrieve it by running the following command in the SSH session:
 
@@ -224,13 +224,13 @@ pipeline { // defines a block containing all instructions
 - From the Jenkins dashboard, click on "New Item".
 - Enter a name for your pipeline, select "Pipeline" as the item type, and click OK.
 
-<img src="/assets/img/jenkinsTutorial/jenkinsPipelineName.png" alt="jenkins pipeline name">
+<img alt="alt text" src="/assets/img/jenkinsTutorial/jenkinsPipelineName.png">
 
 - In the pipeline configuration page, scroll down to the Pipeline section. Leave the default settings as-is for now.
 - Paste the sample pipeline script into the Definition area.
 - Click Save.
 
-<img src="/assets/img/jenkinsTutorial/pipelineDefinition.png" alt="pipeline definition">
+<img alt="alt text" src="/assets/img/jenkinsTutorial/pipelineDefinition.png">
 
 Once saved, trigger the pipeline by clicking on "Build Now" from the left-side menu. A new build will be queued and executed.
 
@@ -238,7 +238,7 @@ To see the output:
 - Click on the build number from the build history list.
 - Then click on "Console Output" to view logs for each stage of the pipeline.
 
-<img src="/assets/img/jenkinsTutorial/pipelineOutput.png" alt="pipeline output">
+<img alt="alt text" src="/assets/img/jenkinsTutorial/pipelineOutput.png">
 
 Next, here’s a slightly more advanced Git-integrated Jenkins pipeline that pulls source code from a remote Git repository and automates the entire workflow: testing, building, and running the application. The [sample web app](https://github.com/AdminTurnedDevOps/go-webapp-sample/tree/master) used here is developed in Golang, so the Go plugin must be installed beforehand.
 
