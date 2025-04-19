@@ -34,26 +34,24 @@ Docker is an open-source platform that enables developers to build, package, dep
 
 Unlike traditional deployments where dependencies must be installed manually on each machine, Docker ensures everything the application needs (libraries, runtime, environment variables, etc.) is already included within the image, eliminating "it works on my machine" problems.
 
-### <span style = "color:lightgreen;">Why Use Docker?
-</span>
+### <span style = "color:lightgreen;">Why Use Docker?</span>
 
-1. Lightweight and Efficient: </br>
+1. **Lightweight and Efficient**:
 Containers are much more lightweight than virtual machines. While VMs simulate an entire operating system along with hardware through a hypervisor, Docker containers share the host OS kernel and only run the necessary libraries and binaries. For example, if you run a container using an Ubuntu base image, it won’t have systemctl or systemd since it's designed to run just a single isolated process—not an entire OS.
 
-2. Portability: </br>
+2. **Portability**:
 Docker containers can run on any system that supports Docker—whether it's Linux, macOS, Windows, or a cloud provider. This allows developers to write code once and run it anywhere without worrying about environment inconsistencies.
 
-3. Speed and Scalability: </br>
+3. **Speed and Scalability**:
 Because containers are lightweight and don’t require booting up an entire OS, they start almost instantly. Developers can spin up multiple instances of an application in seconds, which is ideal for scaling.
 
-4. Version Control and Rollback: </br>
+4. **Version Control and Rollback**:
 Docker tracks versions of images, making it easy to roll back to previous builds. This is especially useful in CI/CD pipelines where consistency and control are crucial.
 
-5. Ecosystem and Community: </br>
+5. **Ecosystem and Community**:
 Docker has a vast open-source ecosystem. Developers can access Docker Hub—a public registry with thousands of pre-built container images contributed by the community and official sources.
 
-### <span style = "color:lightgreen;">Real-World use cases
-</span>
+### <span style = "color:lightgreen;">Real-World use cases</span>
 
 - **Microservices architecture:** Run isolated services for better scalability and maintainability.
 - **Reproducible development environments:** Mirror production to avoid "it works on my machine" problems.
