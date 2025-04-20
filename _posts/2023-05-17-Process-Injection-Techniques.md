@@ -2,8 +2,8 @@
 title: Process Injection Techniques
 author: k4n3ki 
 date: 2023-05-17 2:4:00 -500 
-categories: [Malware] 
-tags: [Tips, APIs] 
+categories: [Malware Analysis] 
+tags: [Process Injection, Windows API, Malware Development, Red Teaming] 
 ---
 
 Identifying process injections by Windows API calls.

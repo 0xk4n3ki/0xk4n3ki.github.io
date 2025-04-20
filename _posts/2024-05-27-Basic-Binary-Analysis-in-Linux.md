@@ -2,8 +2,8 @@
 title : CTF Challenge Walkthrough from Practical Binary Analysis
 author : k4n3ki
 date : 2024-05-26 1:00:00 +530
-categories: [Binary Analysis]
-tags: [Reversing, readelf, objdump, gdb]
+categories: [Reverse Engineering]
+tags: [Practical Binary Analysis, readelf, objdump, gdb]
 ---
 
 [Practical Binary Analysis](https://practicalbinaryanalysis.com/) Book authored by Dennis Andriesse covers all major binary analysis topics in an accessible way, from binary formats, disassembly, and basic analysis to advanced techniques like binary instrumentation, taint analysis, and symbolic execution.
