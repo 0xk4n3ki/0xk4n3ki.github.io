@@ -4,6 +4,9 @@ author : k4n3ki
 date : 2024-05-26 1:00:00 +530
 categories: [Reverse Engineering]
 tags: [Practical Binary Analysis, readelf, objdump, gdb]
+image:
+    path: assets/img/chapter5/binary-code-green.png
+    alt: Binary Code
 ---
 
 [Practical Binary Analysis](https://practicalbinaryanalysis.com/) Book authored by Dennis Andriesse covers all major binary analysis topics in an accessible way, from binary formats, disassembly, and basic analysis to advanced techniques like binary instrumentation, taint analysis, and symbolic execution.

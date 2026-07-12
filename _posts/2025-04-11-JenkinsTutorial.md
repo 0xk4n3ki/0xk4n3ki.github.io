@@ -4,6 +4,9 @@ author : k4n3ki
 date : 2025-04-11 1:00:00 +530
 categories: [DevOps]
 tags: [Jenkins, CI/CD, DevOps, AWS]
+image:
+    path: /assets/img/jenkinsTutorial/jenkins.png
+    alt: Jenkins logo
 ---
 
 A few weeks ago, I began my journey into the world of DevOps, starting with the [DevOps Mastery Specialization](https://www.coursera.org/specializations/devops-mastery) on Coursera by KodeKloud—an excellent starting point for anyone new to this space. In this blog, I'll walk you through one of the core tools I’ve explored: [Jenkins](https://www.coursera.org/learn/jenkins-for-beginners). We'll cover how to install Jenkins, set it up, and create a simple pipeline to get a hands-on feel for continuous integration.
