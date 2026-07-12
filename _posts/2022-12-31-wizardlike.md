@@ -4,6 +4,9 @@ author : k4n3ki
 date : 2022-12-31 23:00:00
 categories : [Reverse Engineering]
 tags : [PicoCTF 2021, IDA]
+image:
+    path: /assets/img/20230101/wizardLike/ida.jpeg
+    alt: IDA
 ---
 
 # <span style = "color:red;">Content</span>

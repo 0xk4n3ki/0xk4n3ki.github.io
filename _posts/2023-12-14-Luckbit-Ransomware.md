@@ -4,6 +4,9 @@ author : k4n3ki
 date : 2023-12-14 1:00:00 -500
 categories: [Malware Analysis]
 tags: [Ransomware, Reverse Engineering, .Net]
+image:
+    path: /assets/img/luckbit/ransomware.jpg
+    alt: Ransomware
 ---
 
 # <span style="color:red">Overview</span>

@@ -4,6 +4,9 @@ author : k4n3ki
 date : 2023-11-12 1:00:00 -500
 categories: [Reverse Engineering]
 tags: [gdb, angr, picoCTF, python]
+image:
+    path: /assets/img/gdb_picoCTF/gdb.png
+    alt: GDB
 ---
 
 ## <span style="color:red">Content</span>

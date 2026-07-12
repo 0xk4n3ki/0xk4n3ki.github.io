@@ -4,6 +4,9 @@ author : k4n3ki
 date : 2023-10-07 00:07:00 +530
 categories: [Malware Analysis]
 tags: [Malware Analysis, Reverse Engineering, Windows Internals]
+image:
+    path: /assets/img/heaven/windows.gif
+    alt: Windows internals
 ---
 
 # <span style="color:red">About</span>

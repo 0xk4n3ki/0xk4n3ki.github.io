@@ -4,6 +4,9 @@ author : k4n3ki
 date : 2023-11-12 00:07:00 +530
 categories: [Malware Analysis]
 tags: [Trojan, .Net malware]
+image:
+    path: /assets/img/assignment/rat.jpg
+    alt: RAT
 ---
 
 
